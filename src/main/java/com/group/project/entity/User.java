@@ -27,7 +27,7 @@ public class User {
 
     private Boolean enabled;
 
-    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Role> roles;
 
     public User() {
