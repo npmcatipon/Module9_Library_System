@@ -19,17 +19,17 @@ public class Role {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User users;
+    private User user;
 
     @Column(nullable = false)
-    private String roleNames;
+    private String role;
 
     public Role() {
     }
 
     public Role(User users, String roleNames) {
-        this.users = users;
-        this.roleNames = roleNames;
+        this.user = users;
+        this.role = roleNames;
     }
 
     public Long getId() {
@@ -41,19 +41,19 @@ public class Role {
     }
 
     public User getUser() {
-        return users;
+        return user;
     }
 
     public void setUser(User user) {
-        this.users = user;
+        this.user = user;
     }
 
-    public String getRoleNames() {
-        return roleNames;
+    public String getRole() {
+        return role;
     }
 
-    public void setRoleNames(String roleNames) {
-        this.roleNames = roleNames;
+    public void setRole(String roleNames) {
+        this.role = roleNames;
     }
 
 }
