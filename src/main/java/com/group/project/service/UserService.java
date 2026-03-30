@@ -39,7 +39,7 @@ public class UserService {
 		// Assign Roles
 		if (userDto.getRoles() != null && !userDto.getRoles().isEmpty()) {
 			for (String roleName : userDto.getRoles()) {
-				Role roles = new Role(savedUser, roleName);
+				Role roles = new Role(savedUser, "ROLE_" + roleName);
 				roleRepository.save(roles);
 			}
 		} else {
