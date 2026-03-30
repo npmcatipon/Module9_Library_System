@@ -12,7 +12,7 @@ import com.group.project.entity.Book;
 import com.group.project.service.BookService;
 
 @RestController
-@RequestMapping("/api/book")
+@RequestMapping("/api/books")
 public class BookController {
 
 	private final BookService bookService;
