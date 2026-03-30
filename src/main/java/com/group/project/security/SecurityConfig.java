@@ -19,7 +19,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
-
+    
 	@Autowired
 	private CustomUserDetailsService userDetailsService;
 
@@ -28,10 +28,13 @@ public class SecurityConfig {
 
 		http
 				.csrf(csrf -> csrf.disable())
+				.authenticationProvider(daoAuthenticationProvider())
 				.authorizeHttpRequests(auth -> auth
-						.requestMatchers("/api/book/**").permitAll()
+						.requestMatchers("/api/book/**").hasAnyRole("USER","ADMIN")
 						.requestMatchers("/api/users/**").permitAll()
 						.anyRequest().authenticated())
+				.exceptionHandling(ex -> ex.authenticationEntryPoint(new CustomAuthEntryPoint()))
+				.exceptionHandling(ex -> ex.accessDeniedHandler(new CustomAccessDeniedHandler()))
 				.httpBasic(Customizer.withDefaults());
 
 		return http.build();
