@@ -30,7 +30,7 @@ public class SecurityConfig {
 				.csrf(csrf -> csrf.disable())
 				.authenticationProvider(daoAuthenticationProvider())
 				.authorizeHttpRequests(auth -> auth
-						.requestMatchers("/api/book/**").hasAnyRole("USER","ADMIN")
+						.requestMatchers("/api/books/**").hasAnyRole("USER","ADMIN")
 						.requestMatchers("/api/users/**").permitAll()
 						.anyRequest().authenticated())
 				.exceptionHandling(ex -> ex.authenticationEntryPoint(new CustomAuthEntryPoint()))
