@@ -63,11 +63,11 @@ public class Book {
         this.author = author;
     }
 
-    public Boolean getIsBorrowed() {
+    public Boolean getBorrowed() {
         return borrowed;
     }
 
-    public void setIsBorrowed(Boolean borrowed) {
+    public void setBorrowed(Boolean borrowed) {
         this.borrowed = borrowed;
     }
 
