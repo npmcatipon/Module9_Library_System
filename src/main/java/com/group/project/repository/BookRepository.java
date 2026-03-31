@@ -11,12 +11,12 @@ import com.group.project.entity.Book;
 @Repository
 public interface BookRepository extends JpaRepository<Book, Long> {
 
-    @Query("SELECT b.id, b.title, b.author FROM Book b")
+    @Query("SELECT b FROM Book b")
     List<Book> showAllBooks();
 
-    @Query("SELECT b.id, b.title, b.author FROM Book b WHERE b.borrowed = false")
+    @Query("SELECT b FROM Book b WHERE b.borrowed = false")
     List<Book> showAvailableBooks();
 
-    @Query("SELECT b.id, b.title, b.author FROM Book b WHERE b.borrowed = true")
+    @Query("SELECT b FROM Book b WHERE b.borrowed = true")
     List<Book> showBorrowedBooks();
 }
