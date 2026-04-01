@@ -25,6 +25,7 @@ public class UserService {
 	}
 
 	public User createuser(CreateUserDTO userDto) {
+
 		if (userRepository.findByUsername(userDto.getUsername()).isPresent()) {
 			throw new RuntimeException("Username already exist");
 		}
