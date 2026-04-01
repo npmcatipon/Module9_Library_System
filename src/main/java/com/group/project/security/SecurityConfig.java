@@ -31,7 +31,7 @@ public class SecurityConfig {
 				.authenticationProvider(daoAuthenticationProvider())
 				.authorizeHttpRequests(auth -> auth
 						.requestMatchers("/api/books/**").hasAnyRole("USER","ADMIN")
-						.requestMatchers("/api/users/**").permitAll()
+						.requestMatchers("/api/users/**").hasRole("ADMIN")
 						.anyRequest().authenticated())
 				.exceptionHandling(ex -> ex.authenticationEntryPoint(new CustomAuthEntryPoint()))
 				.exceptionHandling(ex -> ex.accessDeniedHandler(new CustomAccessDeniedHandler()))
