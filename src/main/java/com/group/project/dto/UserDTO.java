@@ -9,14 +9,16 @@ public class UserDTO {
     private Long id;
     private String username;
     private List<Role> roles;
+    private Boolean enabled;
 
     public UserDTO() {
     }
 
-    public UserDTO(Long id, String username, List<Role> roles) {
+    public UserDTO(Long id, String username, List<Role> roles, Boolean enabled) {
         this.id = id;
         this.username = username;
         this.roles = roles;
+        this.enabled = enabled;
     }
 
     public Long getId() {
@@ -43,4 +45,11 @@ public class UserDTO {
         this.roles = roles;
     }
 
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
 }
