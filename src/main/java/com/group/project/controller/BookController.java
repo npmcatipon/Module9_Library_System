@@ -5,6 +5,9 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.group.project.dto.BookDTO;
+import com.group.project.dto.UserDTO;
 import com.group.project.service.BookService;
 
 import jakarta.validation.Valid;
@@ -25,7 +29,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 @RequestMapping("/api/books")
 public class BookController {
 
-	private final BookService bookService;
+    private final BookService bookService;
 
 	public BookController(BookService bookService) {
 		this.bookService = bookService;
@@ -74,7 +78,7 @@ public class BookController {
 											BookDTO bookDTO) {
 		return ResponseEntity
 				.status(HttpStatus.CREATED)
-				.body(bookService.create(bookDTO));
+				.body(bookService.createBook(bookDTO));
 	}
 	
 	@PreAuthorize("hasAnyRole('ADMIN')")
@@ -82,8 +86,35 @@ public class BookController {
 	public ResponseEntity<BookDTO> updateBook(@PathVariable Long id, 
 												@RequestBody BookDTO bookDTO) {
 		
-		BookDTO updatedBook = bookService.update(id, bookDTO);
+		BookDTO updatedBook = bookService.updateBook(id, bookDTO);
 		return ResponseEntity.ok(updatedBook);
+	}
+
+	@PreAuthorize("hasAnyRole('ADMIN')")
+	@DeleteMapping("/delete/{id}")
+	public ResponseEntity<BookDTO> deleteBook(@PathVariable Long id) {
+
+		return ResponseEntity.ok(bookService.deleteBook(id));
+
+	}
+
+	@PreAuthorize("hasAnyRole('USER')")
+	@PutMapping("/borrow/{id}")
+	public ResponseEntity<BookDTO> borrowBook(@PathVariable Long id, @AuthenticationPrincipal UserDetails authDetails) {
+		UserDTO userDTO = new UserDTO();
+
+		userDTO.setUsername(authDetails.getUsername());
+
+		return ResponseEntity.ok(bookService.borrowBook(id,userDTO));
+	}
+
+	@PreAuthorize("hasAnyRole('USER')")
+	@PutMapping("/return/{id}")
+	public ResponseEntity<BookDTO> returnBook(@PathVariable Long id, @AuthenticationPrincipal UserDetails authDetails){ 
+		UserDTO userDTO = new UserDTO();
+		userDTO.setUsername(authDetails.getUsername());
+
+		return ResponseEntity.ok(bookService.returnBook(id, userDTO));
 	}
 
 }
