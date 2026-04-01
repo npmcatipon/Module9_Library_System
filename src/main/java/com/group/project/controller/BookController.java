@@ -113,7 +113,6 @@ public class BookController {
 	public ResponseEntity<BookDTO> returnBook(@PathVariable Long id, @AuthenticationPrincipal UserDetails authDetails){ 
 		UserDTO userDTO = new UserDTO();
 		userDTO.setUsername(authDetails.getUsername());
-
 		return ResponseEntity.ok(bookService.returnBook(id, userDTO));
 	}
 
