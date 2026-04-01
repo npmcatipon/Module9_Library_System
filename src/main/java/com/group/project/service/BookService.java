@@ -2,6 +2,7 @@ package com.group.project.service;
 
 import java.util.List;
 
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -88,7 +89,7 @@ public class BookService {
 		return bookMapper.toDto(book);
 	}
 
-	public BookDTO borrowBook(Long id, UserDTO user) {
+	public BookDTO borrowBook(Long id, String user) {
 		Book book = bookRepository.findById(id)
 			.orElseThrow(() -> new IllegalArgumentException("Book ID not found"));
 
@@ -101,13 +102,13 @@ public class BookService {
 		return bookMapper.toDto(book);
 	}
 
-	public BookDTO returnBook(Long id, UserDTO userDTO) {
+	public BookDTO returnBook(Long id, String username) {
 		Book book = bookRepository.findById(id)
 			.orElseThrow(() -> new IllegalArgumentException("Book ID not found"));
 
 		book.setBorrowed(false);
 
-		loanService.returnBookInLoan(userDTO, book);
+		loanService.returnBookInLoan(username, book);
 
 		Book borrowedBook = bookRepository.save(book);
 		return bookMapper.toDto(borrowedBook);

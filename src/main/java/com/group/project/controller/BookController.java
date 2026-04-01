@@ -79,11 +79,7 @@ public class BookController {
 	@PreAuthorize("hasAnyRole('USER')")
 	@PutMapping("/borrow/{id}")
 	public ResponseEntity<BookDTO> borrowBook(@PathVariable Long id, @AuthenticationPrincipal UserDetails authDetails) {
-		UserDTO userDTO = new UserDTO();
-
-		userDTO.setUsername(authDetails.getUsername());
-
-		return ResponseEntity.ok(bookService.borrowBook(id,userDTO));
+		return ResponseEntity.ok(bookService.borrowBook(id,authDetails.getUsername()));
 	}
 
 	@PreAuthorize("hasAnyRole('USER')")
