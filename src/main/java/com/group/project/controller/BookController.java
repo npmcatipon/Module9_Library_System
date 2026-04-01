@@ -68,11 +68,9 @@ public class BookController {
 	}
 
 	@PreAuthorize("hasAnyRole('ADMIN')")
-	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<BookDTO> deleteBook(@PathVariable Long id) {
-
-		return ResponseEntity.ok(bookService.deleteBook(id));
-
+	@DeleteMapping("/{id}")
+	public void deleteBook(@PathVariable Long id) {
+		bookService.deleteBook(id);
 	}
 
 	@PreAuthorize("hasAnyRole('USER')")
