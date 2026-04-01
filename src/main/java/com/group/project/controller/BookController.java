@@ -35,40 +35,18 @@ public class BookController {
 		this.bookService = bookService;
 	}
 
+	@GetMapping
 	@PreAuthorize("hasAnyRole('ADMIN','USER')")
-	@GetMapping("/all")
-	public ResponseEntity<List<BookDTO>> getAllBooks(
-			@RequestParam(required = false) Long id) {
+	public ResponseEntity<List<BookDTO>> getBooks(
+		@RequestParam(defaultValue = "ALL") String status) {
 
-		List<BookDTO> booksDTO = (id != null)
-				? List.of(bookService.getById(id))
-				: bookService.getAllBooks();
-		return ResponseEntity.ok(booksDTO);
-
-	}
-
-	@PreAuthorize("hasAnyRole('ADMIN','USER')")
-	@GetMapping("/available")
-	public ResponseEntity<List<BookDTO>> getAvailBooks(
-			@RequestParam(required = false) Long id) {
-
-		List<BookDTO> booksDTO = (id != null)
-				? List.of(bookService.getById(id))
-				: bookService.getAvailableBooks();
-		return ResponseEntity.ok(booksDTO);
-
-	}
-
-	@PreAuthorize("hasAnyRole('ADMIN','USER')")
-	@GetMapping("/borrowed")
-	public ResponseEntity<List<BookDTO>> getBorrowedBooks(
-			@RequestParam(required = false) Long id) {
-		
-				List<BookDTO> booksDTO = (id != null)
-				? List.of(bookService.getById(id))
-				: bookService.getBorrowedBooks();
-		return ResponseEntity.ok(booksDTO);
-
+			return ResponseEntity.ok(
+				switch(status.toUpperCase()) {
+					case "AVAILABLE" -> bookService.getAvailableBooks();
+					case "BORROWED" -> bookService.getBorrowedBooks();
+					default -> bookService.getAllBooks();
+				}
+			);
 	}
 
 	@PreAuthorize("hasAnyRole('ADMIN')")
