@@ -1,15 +1,16 @@
 package com.group.project.entity;
 
-import java.util.List;
+import com.group.project.enums.LoanStatus;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -20,20 +21,24 @@ public class Loan {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", unique = true)
-    private User users;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "userId", nullable = false)
+    private User user;
 
-    @OneToMany(mappedBy = "loan")
-    private List<Book> books;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "bookId", nullable = false)
+    private Book book;
+
+    @Enumerated(EnumType.STRING)
+    private LoanStatus status;
 
     public Loan() {
     }
 
-    public Loan(Long id, User users, List<Book> books) {
-        this.id = id;
-        this.users = users;
-        this.books = books;
+    public Loan(User user, Book book, LoanStatus status) {
+        this.user = user;
+        this.book = book;
+        this.status = status;
     }
 
     public Long getId() {
@@ -44,20 +49,28 @@ public class Loan {
         this.id = id;
     }
 
-    public User getUsers() {
-        return users;
+    public User getUser() {
+        return user;
     }
 
-    public void setUsers(User users) {
-        this.users = users;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public List<Book> getBooks() {
-        return books;
+    public Book getBook() {
+        return book;
     }
 
-    public void setBooks(List<Book> books) {
-        this.books = books;
+    public void setBook(Book book) {
+        this.book = book;
+    }
+
+    public LoanStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(LoanStatus status) {
+        this.status = status;
     }
 
 }
