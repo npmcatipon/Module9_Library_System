@@ -1,20 +1,23 @@
 package com.group.project.dto;
 
-import java.util.List;
-
 import com.group.project.entity.Book;
 import com.group.project.entity.User;
 
 public class LoanDTO {
 
     private Long id;
-    private User users;
-    private List<Book> books;
+    private User user;
+    private Book book;
+    private String status;
 
-    public LoanDTO(Long id, User users, List<Book> books) {
+    public LoanDTO() {
+    }
+
+    public LoanDTO(Long id, User user, Book book, String status) {
         this.id = id;
-        this.users = users;
-        this.books = books;
+        this.user = user;
+        this.book = book;
+        this.status = status;
     }
 
     public Long getId() {
@@ -25,20 +28,28 @@ public class LoanDTO {
         this.id = id;
     }
 
-    public User getUsers() {
-        return users;
+    public User getUser() {
+        return user;
     }
 
-    public void setUsers(User users) {
-        this.users = users;
+    public void setUser(User user) {
+        this.user = user;
+    }
+    
+    public Book getBook() {
+        return book;
     }
 
-    public List<Book> getBooks() {
-        return books;
+    public void setBook(Book book) {
+        this.book = book;
     }
 
-    public void setBooks(List<Book> books) {
-        this.books = books;
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
 }
