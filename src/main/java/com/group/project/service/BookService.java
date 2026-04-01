@@ -2,12 +2,10 @@ package com.group.project.service;
 
 import java.util.List;
 
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import com.group.project.dto.BookDTO;
-import com.group.project.dto.UserDTO;
 import com.group.project.entity.Book;
 import com.group.project.mapper.BookMapper;
 import com.group.project.repository.BookRepository;

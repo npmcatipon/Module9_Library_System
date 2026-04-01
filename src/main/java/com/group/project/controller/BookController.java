@@ -52,8 +52,7 @@ public class BookController {
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	@PostMapping("/add")
 	public ResponseEntity<BookDTO> addBook(@Valid 
-											@RequestBody 
-											BookDTO bookDTO) {
+											@RequestBody BookDTO bookDTO) {
 		return ResponseEntity
 				.status(HttpStatus.CREATED)
 				.body(bookService.createBook(bookDTO));
@@ -85,9 +84,7 @@ public class BookController {
 	@PreAuthorize("hasAnyRole('USER')")
 	@PutMapping("/return/{id}")
 	public ResponseEntity<BookDTO> returnBook(@PathVariable Long id, @AuthenticationPrincipal UserDetails authDetails){ 
-		UserDTO userDTO = new UserDTO();
-		userDTO.setUsername(authDetails.getUsername());
-		return ResponseEntity.ok(bookService.returnBook(id, userDTO));
+		return ResponseEntity.ok(bookService.returnBook(id, authDetails.getUsername().toString()));
 	}
 
 }
