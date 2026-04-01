@@ -1,30 +1,32 @@
 package com.group.project.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
+import com.group.project.dto.BookDTO;
+import com.group.project.dto.UserDTO;
+import com.group.project.entity.Book;
+import com.group.project.mapper.BookMapper;
 import com.group.project.repository.BookRepository;
 
 import jakarta.validation.Valid;
 
-import com.group.project.dto.BookDTO;
-import com.group.project.entity.Book;
-import com.group.project.mapper.BookMapper;
-
 @Service
+@Validated
 public class BookService {
 
-	private final BookRepository bookRepository;
+    private final BookRepository bookRepository;
 	private final BookMapper bookMapper;
-
-	List<Book> books = new ArrayList<>();
+	private final LoanService loanService;
 
 	public BookService(BookRepository bookRepository,
-		BookMapper bookMapper) {
+		BookMapper bookMapper,
+		LoanService loanService) {
 		this.bookRepository = bookRepository;
 		this.bookMapper = bookMapper;
+		this.loanService = loanService;
 	}
 
 	public List<BookDTO> getAllBooks() {
@@ -58,13 +60,13 @@ public class BookService {
 		return bookMapper.toDto(book);
 	}
 
-	public BookDTO create(@Valid BookDTO bookDTO) {
+	public BookDTO createBook(@Valid BookDTO bookDTO) {
 		Book newBook = bookRepository.save(bookMapper.toEntity(bookDTO));
 		BookDTO newBookDTO = bookMapper.toDto(newBook);
 		return newBookDTO;
 	}
 
-	public BookDTO update(Long id, @Valid BookDTO updatedBook) {
+	public BookDTO updateBook(Long id, BookDTO updatedBook) {
 		Book book = bookRepository.findById(id)
 			.orElseThrow(() -> new IllegalArgumentException("Invalid Book ID"));
 		
@@ -77,13 +79,38 @@ public class BookService {
 		return bookMapper.toDto(savedBook);
 	}
 
-	public BookDTO delete(Long id) {
+	public BookDTO deleteBook(Long id) {
 		Book book = bookRepository.findById(id)
 			.orElseThrow(() -> new IllegalArgumentException("Book ID not found"));
 
 		bookRepository.delete(book);
 
 		return bookMapper.toDto(book);
+	}
+
+	public BookDTO borrowBook(Long id, UserDTO user) {
+		Book book = bookRepository.findById(id)
+			.orElseThrow(() -> new IllegalArgumentException("Book ID not found"));
+
+		book.setBorrowed(true);
+
+		loanService.addLoan(user, bookMapper.toDto(book));
+
+		book = bookRepository.save(book);
+		
+		return bookMapper.toDto(book);
+	}
+
+	public BookDTO returnBook(Long id, UserDTO userDTO) {
+		Book book = bookRepository.findById(id)
+			.orElseThrow(() -> new IllegalArgumentException("Book ID not found"));
+
+		book.setBorrowed(false);
+
+		loanService.returnBookInLoan(userDTO, book);
+
+		Book borrowedBook = bookRepository.save(book);
+		return bookMapper.toDto(borrowedBook);
 	}
 
 }
