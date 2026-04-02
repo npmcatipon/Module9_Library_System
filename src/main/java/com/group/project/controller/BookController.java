@@ -59,7 +59,7 @@ public class BookController {
 	}
 	
 	@PreAuthorize("hasAnyRole('ADMIN')")
-	@PutMapping("update/{id}")
+	@PutMapping("/update/{id}")
 	public ResponseEntity<BookDTO> updateBook(@PathVariable Long id, 
 												@Valid @RequestBody BookDTO bookDTO) {
 		
