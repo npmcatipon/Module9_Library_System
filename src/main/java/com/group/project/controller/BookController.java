@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.group.project.dto.BookDTO;
-import com.group.project.dto.UserDTO;
 import com.group.project.service.BookService;
 
 import jakarta.validation.Valid;
