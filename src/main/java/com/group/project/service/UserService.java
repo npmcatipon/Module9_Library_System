@@ -24,6 +24,13 @@ public class UserService {
 		this.passwordEncoder = passwordEncoder;
 	}
 
+	/**
+	 * Creates a username and password
+	 *
+	 * @param userDTO Details of user to be created. Contains username, password and
+	 *                if ID is enabled.
+	 * @return User entity that contains the details of the new user.
+	 */
 	public User createuser(CreateUserDTO userDto) {
 
 		if (userRepository.findByUsername(userDto.getUsername()).isPresent()) {
