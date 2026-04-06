@@ -20,6 +20,13 @@ public class UserController {
 		this.userService = userService;
 	}
 
+	/**
+	 * To create a new user
+	 *
+	 * @params userDto User Details of the new user. Contains username, password and
+	 *         enabled.
+	 * @return String success message.
+	 */
 	@PostMapping("/create")
 	public ResponseEntity<String> createUser(@RequestBody CreateUserDTO userDto) {
 
